@@ -78,7 +78,11 @@ class GZIPMixin(object):
                 if not matches_patterns(path, self.gzip_patterns):
                     continue
                 original_file = self.open(path)
-                gzipped_path = "{0}.gz".format(path)
+                if path.endswith('.css'):
+                    gzipped_path = '.'.join((path[:-4], 'gz', 'css'))
+                elif path.endswith('.js'):
+                    gzipped_path = '.'.join((path[:-3], 'gz', 'js'))
+
                 if self.exists(gzipped_path):
                     self.delete(gzipped_path)
                 gzipped_file = self._compress(original_file)
